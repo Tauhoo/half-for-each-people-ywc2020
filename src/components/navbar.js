@@ -26,16 +26,16 @@ const Wrapper = styled.div`
   grid-template-columns: max-content 1fr;
   padding: 10px 0px;
   padding-right: 2rem;
-  > * :last-child {
-    display: none;
+  > div :last-child {
+    display: none !important;
   }
 
   @media (max-width: 768px) {
     grid-template-columns: max-content 1fr max-content;
     align-items: center;
     padding-right: 16px;
-    > * :last-child {
-      display: inline-block;
+    > div:last-child {
+      display: inline-block !important;
     }
   }
 `
