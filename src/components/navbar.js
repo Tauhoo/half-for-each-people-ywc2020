@@ -71,7 +71,9 @@ const LogoContainer = styled.div`
   }
 `
 
-export default () => (
+const FilterIconContainer = styled.div``
+
+export default ({ onClickFilter }) => (
   <Container>
     <Wrapper>
       <LogoContainer>
@@ -97,7 +99,9 @@ export default () => (
           style={{ width: "100%", border: "none", backgroundColor: "#F8F8F8" }}
         ></Button>
       </InputGroup>
-      <FilterIcon style={{ marginLeft: "16px" }}></FilterIcon>
+      <FilterIconContainer onClick={onClickFilter}>
+        <FilterIcon style={{ marginLeft: "16px" }}></FilterIcon>
+      </FilterIconContainer>
     </Wrapper>
   </Container>
 )

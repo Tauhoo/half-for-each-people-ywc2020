@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import styled from "styled-components"
 import { createGlobalStyle } from "styled-components"
@@ -53,7 +53,7 @@ const Container = styled.div`
   padding-bottom: 2rem;
 `
 
-export default ({ children }) => {
+export default ({ children, onClickFilter }) => {
   const data = useStaticQuery(graphql`
     query {
       file(relativePath: { eq: "background.png" }) {
@@ -68,7 +68,7 @@ export default ({ children }) => {
   return (
     <Container url={data.file.childImageSharp.fixed.src}>
       <GlobalStyle />
-      <Navbar />
+      <Navbar onClickFilter={onClickFilter} />
       <HistoryMenu />
       <Wrapper>{children}</Wrapper>
     </Container>

@@ -1,11 +1,12 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import Layout from "../components/layout"
-import { Typography, Button } from "antd"
+import { Typography, Button, Drawer } from "antd"
 import FilterPanel from "../components/filterPanel"
 import MerchantCard from "../components/merchantCard"
+import { LeftOutlined } from "@ant-design/icons"
 
-const { Paragraph } = Typography
+const { Paragraph, Title } = Typography
 
 const Container = styled.div`
   width: 100%;
@@ -43,40 +44,88 @@ const FilterPanelContainer = styled.div`
   }
 `
 
+const TitleContainer = styled.div`
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  width: 100%;
+  align-items: center;
+  justify-items: center;
+  height: 64px;
+  padding: 0px 1rem;
+`
 export default () => {
+  const [visibleFilter, setVisibleFilter] = useState(false)
   return (
-    <Layout>
-      <Container>
-        <Paragraph
-          style={{ fontSize: "1.25rem", marginTop: "20px", fontWeight: "600" }}
-        >
-          ผลการค้นหา ร้านค้า OTOP ทั้งหมด
-        </Paragraph>
-        <br />
-        <br />
-        <Content>
-          <FilterPanelContainer>
-            <FilterPanel></FilterPanel>
-          </FilterPanelContainer>
-          <MerchantList>
-            <MerchantCard></MerchantCard>
-            <MerchantCard></MerchantCard>
-            <MerchantCard></MerchantCard>
-            <MerchantCard></MerchantCard>
-            <Button
-              size="large"
+    <>
+      <Drawer
+        title={
+          <TitleContainer>
+            <LeftOutlined
+              style={{ fontSize: "1.5rem", color: "white" }}
+              onClick={() => setVisibleFilter(false)}
+            />
+            <Title
+              level={2}
               style={{
-                marginTop: "40px",
-                height: "50px",
-                maxWidth: "24rem",
-                width: "100%",
+                color: "white",
+                textAlign: "center",
+                margin: "0px",
+                fontSize: "1.5rem",
               }}
             >
-              ดูเพิ่มเติม
-            </Button>
-          </MerchantList>
-        </Content>
-      </Container>
-    </Layout>
+              กรอกผล
+            </Title>
+          </TitleContainer>
+        }
+        headerStyle={{
+          padding: "0px",
+          backgroundColor: "#2B4364",
+          height: "64px",
+        }}
+        placement="right"
+        closable={false}
+        visible={visibleFilter}
+        width="100%"
+      >
+        <FilterPanel></FilterPanel>
+      </Drawer>
+      <Layout onClickFilter={() => setVisibleFilter(true)}>
+        <Container>
+          <Paragraph
+            style={{
+              fontSize: "1.25rem",
+              marginTop: "20px",
+              fontWeight: "600",
+            }}
+          >
+            ผลการค้นหา ร้านค้า OTOP ทั้งหมด
+          </Paragraph>
+          <br />
+          <br />
+          <Content>
+            <FilterPanelContainer>
+              <FilterPanel></FilterPanel>
+            </FilterPanelContainer>
+            <MerchantList>
+              <MerchantCard></MerchantCard>
+              <MerchantCard></MerchantCard>
+              <MerchantCard></MerchantCard>
+              <MerchantCard></MerchantCard>
+              <Button
+                size="large"
+                style={{
+                  marginTop: "40px",
+                  height: "50px",
+                  maxWidth: "24rem",
+                  width: "100%",
+                }}
+              >
+                ดูเพิ่มเติม
+              </Button>
+            </MerchantList>
+          </Content>
+        </Container>
+      </Layout>
+    </>
   )
 }
