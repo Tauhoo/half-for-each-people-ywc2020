@@ -1,11 +1,13 @@
 import React from "react"
 import styled from "styled-components"
-import { Input, Select, Button } from "antd"
+import { Input, Button, AutoComplete } from "antd"
 import { SearchOutlined } from "@ant-design/icons"
 import Logo from "./logo"
 import MiniLogo from "./miniLogo"
 import FilterIcon from "./icon/filterIcon"
 import LocationSelector from "./locationSelector"
+import BlueFlagIcon from "./icon/blueFlagIcon"
+import FoodIcon from "./icon/foodIcon"
 
 const Container = styled.div`
   display: flex;
@@ -73,6 +75,53 @@ const LogoContainer = styled.div`
 
 const FilterIconContainer = styled.div``
 
+const OptionContainer = styled.div`
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+`
+
+const searchOptions = [
+  {
+    label: (
+      <OptionContainer>
+        <FoodIcon></FoodIcon>
+        <span>ร้านอาหารและเครื่องดื่ม</span>
+      </OptionContainer>
+    ),
+    value: "ร้านอาหารและเครื่องดื่ม",
+  },
+  {
+    label: (
+      <OptionContainer>
+        <FoodIcon></FoodIcon>
+        <span>ร้านค้า OTOP</span>
+      </OptionContainer>
+    ),
+    value: "ร้านค้า OTOP",
+  },
+  {
+    label: (
+      <OptionContainer>
+        <BlueFlagIcon></BlueFlagIcon>
+        <span>ร้านธงฟ้า</span>
+      </OptionContainer>
+    ),
+    value: "ร้านธงฟ้า",
+  },
+  {
+    label: (
+      <OptionContainer>
+        <FoodIcon></FoodIcon>
+        <span>สินค้าทั่วไป</span>
+      </OptionContainer>
+    ),
+    value: "สินค้าทั่วไป",
+  },
+]
+
 export default ({ onClickFilter }) => (
   <Container>
     <Wrapper>
@@ -82,7 +131,7 @@ export default ({ onClickFilter }) => (
       </LogoContainer>
       <InputGroup>
         <LocationSelector size="large" bordered={false}></LocationSelector>
-        <Input
+        <AutoComplete
           placeholder="ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
           size="large"
           bordered={false}
@@ -91,8 +140,10 @@ export default ({ onClickFilter }) => (
             borderStyle: "solid",
             borderRadius: "0px",
             borderColor: "#E2E8F0",
+            overflow: "hidden",
           }}
-        ></Input>
+          options={searchOptions}
+        />
         <Button
           size="large"
           icon={<SearchOutlined style={{ width: "39px" }} />}
