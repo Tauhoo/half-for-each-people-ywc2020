@@ -8,9 +8,26 @@ const path = require(`path`)
 module.exports = {
   /* Your site config here */
   plugins: [
-    "gatsby-plugin-antd",
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    {
+      resolve: "gatsby-plugin-antd",
+      options: {
+        style: true,
+      },
+    },
+    {
+      resolve: "gatsby-plugin-less",
+      options: {
+        lessOptions: {
+          javascriptEnabled: true,
+          modifyVars: {
+            "font-family": `IBM Plex Sans Thai,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji!important`,
+            "font-size-base": "12px",
+          },
+        },
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -20,14 +37,6 @@ module.exports = {
     },
     {
       resolve: `gatsby-plugin-styled-components`,
-    },
-    {
-      resolve: "gatsby-plugin-web-font-loader",
-      options: {
-        google: {
-          families: ["IBM Plex Sans"],
-        },
-      },
     },
   ],
 }
