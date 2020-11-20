@@ -121,8 +121,9 @@ function useFilterPannel() {
 
   function setSearchKeyword(key) {
     if (data.categories.filter(({ name }) => name === key).length > 0) {
-      setCategory(key)
-      setSearchKeyword("")
+      updateSubCategories(key)
+      setQuery({ ...query, category: key, subcategory: "ทั้งหมด", key: "" })
+      setLoading(true)
       return
     }
 
@@ -148,6 +149,16 @@ function useFilterPannel() {
     setSearchKeyword,
     updateData,
   ]
+}
+
+const renderTitle = (query, data) => {
+  return `ผลการค้นหา ${[
+    query.category !== "ทั้งหมด" ? query.category : null,
+    query.priceLevel > -1 ? data.priceRange[query.priceLevel] : null,
+    query.key !== "" ? query.key : null,
+  ]
+    .filter(value => value !== null)
+    .join(" , ")} ทั้งหมด`
 }
 
 export default () => {
@@ -248,7 +259,7 @@ export default () => {
               fontWeight: "600",
             }}
           >
-            ผลการค้นหา ร้านค้า OTOP ทั้งหมด
+            {renderTitle(query, data)}
           </Paragraph>
           <br />
           <br />
