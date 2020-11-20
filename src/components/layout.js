@@ -49,6 +49,8 @@ const Container = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
+  padding-bottom: 2rem;
 `
 
 export default ({ children }) => {
