@@ -4,11 +4,8 @@ import { Input, Select, Button } from "antd"
 import { SearchOutlined } from "@ant-design/icons"
 import Logo from "./logo"
 import MiniLogo from "./miniLogo"
-import AllLocationIcon from "./icon/allLocation"
-import LocationIcon from "./icon/location"
 import FilterIcon from "./icon/filterIcon"
-
-const { Option } = Select
+import LocationSelector from "./locationSelector"
 
 const Container = styled.div`
   display: flex;
@@ -55,11 +52,6 @@ const InputGroup = styled.div`
   }
 `
 
-const OptionContainer = styled.div`
-  display: flex;
-  align-items: center;
-`
-
 const LogoContainer = styled.div`
   height: 40px;
   padding: 0px 2rem;
@@ -86,28 +78,7 @@ export default () => (
         <MiniLogo></MiniLogo>
       </LogoContainer>
       <InputGroup>
-        <Select
-          defaultValue=".com"
-          size="large"
-          style={{ width: "100%" }}
-          bordered={false}
-        >
-          <Option value=".com">
-            <OptionContainer>
-              <AllLocationIcon style={{ marginRight: "6px" }} />
-              <span>สถานที่ทั้งหมด</span>
-            </OptionContainer>
-          </Option>
-          <Option value=".c">
-            <OptionContainer>
-              <LocationIcon style={{ marginRight: "6px" }} />
-              <span>พื้นที่ใกล้ฉัน</span>
-            </OptionContainer>
-          </Option>
-          <Option value=".jp">.jp</Option>
-          <Option value=".cn">.cn</Option>
-          <Option value=".org">.org</Option>
-        </Select>
+        <LocationSelector size="large" bordered={false}></LocationSelector>
         <Input
           placeholder="ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
           size="large"
