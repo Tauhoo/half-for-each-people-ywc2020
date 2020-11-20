@@ -78,6 +78,7 @@ function useFilterPannel() {
   const [merchantsList, setMerchantList] = useState([])
   const [subCategories, setSubCategories] = useState([])
   const [loading, setLoading] = useState(false)
+  const [merchantNumber, setPage] = useState(0)
 
   useEffect(() => {
     if (!loading) return
@@ -88,6 +89,7 @@ function useFilterPannel() {
     const result = await queryData(query, data.merchants, subCategories)
     setMerchantList(result)
     setLoading(false)
+    setPage(Math.min(18, result.length))
   }
 
   function updateSubCategories(category) {
@@ -135,8 +137,12 @@ function useFilterPannel() {
     setData(data)
     setLoading(true)
   }
+  function addPage() {
+    setPage(Math.min(merchantNumber + 18, merchantsList.length))
+  }
 
   return [
+    merchantNumber,
     data,
     subCategories,
     merchantsList,
@@ -148,6 +154,7 @@ function useFilterPannel() {
     setProvince,
     setSearchKeyword,
     updateData,
+    addPage,
   ]
 }
 
@@ -164,6 +171,7 @@ const renderTitle = (query, data) => {
 export default () => {
   const [visibleFilter, setVisibleFilter] = useState(false)
   const [
+    merchantNumber,
     data,
     subCategories,
     merchants,
@@ -175,6 +183,7 @@ export default () => {
     setProvince,
     setSearchKeyword,
     setData,
+    addPage,
   ] = useFilterPannel()
 
   const fecthData = async () => {
@@ -268,20 +277,28 @@ export default () => {
               <FilterPanel {...filterPanelProps}></FilterPanel>
             </FilterPanelContainer>
             <MerchantList>
-              {merchants.map(data => (
-                <MerchantCard data={data} key={data.shopNameTH}></MerchantCard>
-              ))}
-              <Button
-                size="large"
-                style={{
-                  marginTop: "40px",
-                  height: "50px",
-                  maxWidth: "24rem",
-                  width: "100%",
-                }}
-              >
-                ดูเพิ่มเติม
-              </Button>
+              {merchants
+                .map(data => (
+                  <MerchantCard
+                    data={data}
+                    key={data.shopNameTH}
+                  ></MerchantCard>
+                ))
+                .slice(0, merchantNumber)}
+              {merchantNumber >= merchants.length ? null : (
+                <Button
+                  size="large"
+                  style={{
+                    marginTop: "40px",
+                    height: "50px",
+                    maxWidth: "24rem",
+                    width: "100%",
+                  }}
+                  onClick={() => addPage()}
+                >
+                  ดูเพิ่มเติม
+                </Button>
+              )}
             </MerchantList>
           </Content>
         </Container>
