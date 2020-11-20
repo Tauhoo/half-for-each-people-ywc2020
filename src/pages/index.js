@@ -6,7 +6,6 @@ const Container = styled.div`
   width: 100%;
   background-color: black;
   color: white;
-  font-family: "IBM Plex Sans";
 `
 
 export default () => {

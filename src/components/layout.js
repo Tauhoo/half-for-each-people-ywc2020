@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
 
   * {
     box-sizing: border-box;
+    font-family: "IBM Plex Sans";
   } 
 `
 
