@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import { Input, Button, AutoComplete } from "antd"
 import { SearchOutlined } from "@ant-design/icons"
@@ -122,37 +122,57 @@ const searchOptions = [
   },
 ]
 
-export default ({ onClickFilter }) => (
-  <Container>
-    <Wrapper>
-      <LogoContainer>
-        <Logo></Logo>
-        <MiniLogo></MiniLogo>
-      </LogoContainer>
-      <InputGroup>
-        <LocationSelector size="large" bordered={false}></LocationSelector>
-        <AutoComplete
-          placeholder="ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
-          size="large"
-          bordered={false}
-          style={{
-            borderWidth: "0px 0px 0px 1px",
-            borderStyle: "solid",
-            borderRadius: "0px",
-            borderColor: "#E2E8F0",
-            overflow: "hidden",
-          }}
-          options={searchOptions}
-        />
-        <Button
-          size="large"
-          icon={<SearchOutlined style={{ width: "39px" }} />}
-          style={{ width: "100%", border: "none", backgroundColor: "#F8F8F8" }}
-        ></Button>
-      </InputGroup>
-      <FilterIconContainer onClick={onClickFilter}>
-        <FilterIcon style={{ marginLeft: "16px" }}></FilterIcon>
-      </FilterIconContainer>
-    </Wrapper>
-  </Container>
-)
+export default ({ onClickFilter, locationSelectorProps, onUpdateKey }) => {
+  const [key, setKey] = useState("")
+
+  const onUpdate = usingKey => {
+    onUpdateKey(usingKey)
+  }
+
+  return (
+    <Container>
+      <Wrapper>
+        <LogoContainer>
+          <Logo></Logo>
+          <MiniLogo></MiniLogo>
+        </LogoContainer>
+        <InputGroup>
+          <LocationSelector
+            size="large"
+            bordered={false}
+            {...locationSelectorProps}
+          ></LocationSelector>
+          <AutoComplete
+            placeholder="ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
+            size="large"
+            bordered={false}
+            onChange={value => setKey(value)}
+            onSelect={value => onUpdate(value)}
+            value={key}
+            style={{
+              borderWidth: "0px 0px 0px 1px",
+              borderStyle: "solid",
+              borderRadius: "0px",
+              borderColor: "#E2E8F0",
+              overflow: "hidden",
+            }}
+            options={searchOptions}
+          />
+          <Button
+            size="large"
+            icon={<SearchOutlined style={{ width: "39px" }} />}
+            style={{
+              width: "100%",
+              border: "none",
+              backgroundColor: "#F8F8F8",
+            }}
+            onClick={() => onUpdate(key)}
+          ></Button>
+        </InputGroup>
+        <FilterIconContainer onClick={onClickFilter}>
+          <FilterIcon style={{ marginLeft: "16px" }}></FilterIcon>
+        </FilterIconContainer>
+      </Wrapper>
+    </Container>
+  )
+}

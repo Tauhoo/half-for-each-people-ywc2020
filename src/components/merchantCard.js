@@ -43,21 +43,21 @@ const DividerContainer = styled.div`
   grid-template-columns: 65% 35%;
 `
 
-const data = {
-  shopNameTH: "Wiput Shop",
-  categoryName: "แฟชั่น",
-  subcategoryName: "ร้านขายเสื้อผ้า / เครื่องประดับ / สินค้าแฟชั่น",
-  coverImageId:
-    "https://images.unsplash.com/photo-1589578228447-e1a4e481c6c8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80",
-  facilities: ["ที่จอดรถ", "สามารถนำสัตว์เลี้ยงเข้าได้"],
-  priceLevel: 2,
-  isOpen: "N/A",
-  highlightText:
-    "Custom Keyboard By <strong>Wiput</strong>, จัดจำหน่าย Keychron ทุกรุ่น",
-  recommendedItems: ["Keychron K2", "Keychron K4"],
-  addressProvinceName: "กรุงเทพมหานคร",
-  addressDistrictName: "เขตพระนคร",
-}
+// const data = {
+//   shopNameTH: "Wiput Shop",
+//   categoryName: "แฟชั่น",
+//   subcategoryName: "ร้านขายเสื้อผ้า / เครื่องประดับ / สินค้าแฟชั่น",
+//   coverImageId:
+//     "https://images.unsplash.com/photo-1589578228447-e1a4e481c6c8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80",
+//   facilities: ["ที่จอดรถ", "สามารถนำสัตว์เลี้ยงเข้าได้"],
+//   priceLevel: 2,
+//   isOpen: "N/A",
+//   highlightText:
+//     "Custom Keyboard By <strong>Wiput</strong>, จัดจำหน่าย Keychron ทุกรุ่น",
+//   recommendedItems: ["Keychron K2", "Keychron K4"],
+//   addressProvinceName: "กรุงเทพมหานคร",
+//   addressDistrictName: "เขตพระนคร",
+// }
 
 const tag = {
   Y: <Tag color="rgb(27, 195, 0)">เปิด</Tag>,
@@ -95,14 +95,12 @@ const renderRecommendItems = recommendedItems => {
   return result
 }
 
-export default () => {
+export default ({ data }) => {
   const {
     shopNameTH,
-    categoryName,
     subcategoryName,
     coverImageId,
     facilities,
-    priceLevel,
     isOpen,
     highlightText,
     recommendedItems,
@@ -115,6 +113,7 @@ export default () => {
     addressDistrictName,
     addressProvinceName,
   ].filter(data => typeof data === "string")
+
   const detailTags = renderRecommendItems(detailTagDatas)
 
   return (

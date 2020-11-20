@@ -53,7 +53,12 @@ const Container = styled.div`
   padding-bottom: 2rem;
 `
 
-export default ({ children, onClickFilter }) => {
+export default ({
+  children,
+  onClickFilter,
+  locationSelectorProps,
+  onUpdateKey,
+}) => {
   const data = useStaticQuery(graphql`
     query {
       file(relativePath: { eq: "background.png" }) {
@@ -68,7 +73,11 @@ export default ({ children, onClickFilter }) => {
   return (
     <Container url={data.file.childImageSharp.fixed.src}>
       <GlobalStyle />
-      <Navbar onClickFilter={onClickFilter} />
+      <Navbar
+        onClickFilter={onClickFilter}
+        locationSelectorProps={locationSelectorProps}
+        onUpdateKey={onUpdateKey}
+      />
       <HistoryMenu />
       <Wrapper>{children}</Wrapper>
     </Container>

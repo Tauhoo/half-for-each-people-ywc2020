@@ -1,10 +1,12 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components"
-import Layout from "../components/layout"
 import { Typography, Button, Drawer } from "antd"
+import { LeftOutlined } from "@ant-design/icons"
+import Layout from "../components/layout"
 import FilterPanel from "../components/filterPanel"
 import MerchantCard from "../components/merchantCard"
-import { LeftOutlined } from "@ant-design/icons"
+import getData from "../utilis/getData"
+import queryData from "../utilis/queryData"
 
 const { Paragraph, Title } = Typography
 
@@ -27,6 +29,7 @@ const MerchantList = styled.div`
   grid-template-columns: 1fr;
   gap: 0.5rem;
   width: 100%;
+  height: max-content;
   justify-items: center;
 `
 
@@ -53,8 +56,155 @@ const TitleContainer = styled.div`
   height: 64px;
   padding: 0px 1rem;
 `
+
+const defaultData = {
+  categories: [],
+  provinces: [],
+  priceRange: [],
+  merchants: [],
+}
+
+const defaultQueryData = {
+  category: "ทั้งหมด",
+  subcategory: "ทั้งหมด",
+  priceLevel: -1,
+  province: "ทั้งหมด",
+  key: "",
+}
+
+function useFilterPannel() {
+  const [data, setData] = useState(defaultData)
+  const [query, setQuery] = useState(defaultQueryData)
+  const [merchantsList, setMerchantList] = useState([])
+  const [subCategories, setSubCategories] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (!loading) return
+    updateMerchantsList()
+  }, [loading])
+
+  async function updateMerchantsList() {
+    const result = await queryData(query, data.merchants, subCategories)
+    setMerchantList(result)
+    setLoading(false)
+  }
+
+  function updateSubCategories(category) {
+    const subCategoryChunk = data.categories
+      .filter(({ name }) => category === name)
+      .map(({ subcategories }) => subcategories)
+    if (subCategoryChunk.length !== 1) return setSubCategories([])
+    setSubCategories(subCategoryChunk[0])
+  }
+
+  function setCategory(category) {
+    updateSubCategories(category)
+    if (category === "ทั้งหมด") {
+      setQuery({ ...query, category, subcategory: category })
+    } else {
+      setQuery({ ...query, category })
+    }
+    setLoading(true)
+  }
+
+  function setSubCategory(subcategory) {
+    setQuery({ ...query, subcategory })
+    setLoading(true)
+  }
+
+  function setPriceLevel(priceLevel) {
+    setQuery({ ...query, priceLevel })
+    setLoading(true)
+  }
+
+  function setProvince(province) {
+    setQuery({ ...query, province })
+    setLoading(true)
+  }
+
+  function setSearchKeyword(key) {
+    if (data.categories.filter(({ name }) => name === key).length > 0) {
+      setCategory(key)
+      setSearchKeyword("")
+      return
+    }
+
+    setQuery({ ...query, key })
+    setLoading(true)
+  }
+
+  function updateData(data) {
+    setData(data)
+    setLoading(true)
+  }
+
+  return [
+    data,
+    subCategories,
+    merchantsList,
+    query,
+    loading,
+    setCategory,
+    setSubCategory,
+    setPriceLevel,
+    setProvince,
+    setSearchKeyword,
+    updateData,
+  ]
+}
+
 export default () => {
   const [visibleFilter, setVisibleFilter] = useState(false)
+  const [
+    data,
+    subCategories,
+    merchants,
+    query,
+    loading,
+    setCategory,
+    setSubCategory,
+    setPriceLevel,
+    setProvince,
+    setSearchKeyword,
+    setData,
+  ] = useFilterPannel()
+
+  const fecthData = async () => {
+    const result = await getData()
+    if (result.status === "fail") return
+    setData(result.data)
+  }
+
+  useEffect(() => {
+    fecthData()
+  }, [])
+
+  const locationSelectorProps = {
+    provinceList: data.provinces,
+    value: query.province,
+    onChange: setProvince,
+  }
+
+  const priceLevelSelectorProps = {
+    priceLevelList: data.priceRange,
+    onChange: setPriceLevel,
+    value: query.priceLevel,
+  }
+  const subCategoriesOptionProps = {
+    subCategoryList: subCategories,
+    onChange: setSubCategory,
+    value: query.category,
+  }
+
+  const filterPanelProps = {
+    queryData: query,
+    onChangeCateglory: setCategory,
+    locationSelectorProps,
+    priceLevelSelectorProps,
+    subCategoriesOptionProps,
+  }
+
   return (
     <>
       <Drawer
@@ -87,9 +237,13 @@ export default () => {
         visible={visibleFilter}
         width="100%"
       >
-        <FilterPanel></FilterPanel>
+        <FilterPanel {...filterPanelProps}></FilterPanel>
       </Drawer>
-      <Layout onClickFilter={() => setVisibleFilter(true)}>
+      <Layout
+        onClickFilter={() => setVisibleFilter(true)}
+        locationSelectorProps={locationSelectorProps}
+        onUpdateKey={setSearchKeyword}
+      >
         <Container>
           <Paragraph
             style={{
@@ -104,13 +258,12 @@ export default () => {
           <br />
           <Content>
             <FilterPanelContainer>
-              <FilterPanel></FilterPanel>
+              <FilterPanel {...filterPanelProps}></FilterPanel>
             </FilterPanelContainer>
             <MerchantList>
-              <MerchantCard></MerchantCard>
-              <MerchantCard></MerchantCard>
-              <MerchantCard></MerchantCard>
-              <MerchantCard></MerchantCard>
+              {merchants.map(data => (
+                <MerchantCard data={data} key={data.shopNameTH}></MerchantCard>
+              ))}
               <Button
                 size="large"
                 style={{
