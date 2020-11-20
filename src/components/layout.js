@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useStaticQuery, graphql } from "gatsby"
+import { Helmet } from "react-helmet"
 import styled from "styled-components"
 import { createGlobalStyle } from "styled-components"
 import HistoryMenu from "./historyMenu"
@@ -73,6 +74,22 @@ export default ({
   return (
     <Container url={data.file.childImageSharp.fixed.src}>
       <GlobalStyle />
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>คนละครึ่ง</title>
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon.png"
+        ></link>
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon.png"
+        ></link>
+      </Helmet>
       <Navbar
         onClickFilter={onClickFilter}
         locationSelectorProps={locationSelectorProps}

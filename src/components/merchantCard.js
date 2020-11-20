@@ -125,7 +125,8 @@ export default ({ data }) => {
         <Paragraph
           style={{ fontSize: "1.25rem", fontWeight: "600", margin: "0px" }}
         >
-          {shopNameTH} {tag[isOpen]}
+          {shopNameTH}
+          <span style={{ paddingLeft: "16px" }}>{tag[isOpen]}</span>
         </Paragraph>
         <Paragraph
           style={{ fontSize: "14px", color: "#999999", margin: "0px" }}
