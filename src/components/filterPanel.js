@@ -29,13 +29,13 @@ const SubCategoriesOption = ({ subCategoryList, onChange, value }) => {
     <>
       <Paragraph
         style={{ fontSize: "1rem", fontWeight: "600", marginTop: "2rem" }}
-        onChange={({ target }) => onChange(target.value)}
       >
         ประเภทร้านค้า OTOP
       </Paragraph>
       <Radio.Group
         style={{ display: "flex", flexDirection: "column", fontSize: "14px" }}
         value={value}
+        onChange={({ target }) => onChange(target.value)}
       >
         <Radio value="ทั้งหมด" style={RadioStyle} key="ทั้งหมด">
           ทั้งหมด

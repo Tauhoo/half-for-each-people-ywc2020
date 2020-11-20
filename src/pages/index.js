@@ -100,11 +100,7 @@ function useFilterPannel() {
 
   function setCategory(category) {
     updateSubCategories(category)
-    if (category === "ทั้งหมด") {
-      setQuery({ ...query, category, subcategory: category })
-    } else {
-      setQuery({ ...query, category })
-    }
+    setQuery({ ...query, category, subcategory: "ทั้งหมด" })
     setLoading(true)
   }
 
@@ -194,7 +190,7 @@ export default () => {
   const subCategoriesOptionProps = {
     subCategoryList: subCategories,
     onChange: setSubCategory,
-    value: query.category,
+    value: query.subcategory,
   }
 
   const filterPanelProps = {
