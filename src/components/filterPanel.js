@@ -126,8 +126,8 @@ export default ({
           style={{ width: "100%" }}
           placeholder="ราคาต่ำสุด"
         ></InputNumber>
-      </PriceRangeContainer> */}
-      <Button style={{ width: "100%", marginTop: "8px" }}>ตกลง</Button>
+      </PriceRangeContainer>
+      <Button style={{ width: "100%", marginTop: "8px" }}>ตกลง</Button> */}
       <SubCategoriesOption {...subCategoriesOptionProps}></SubCategoriesOption>
     </Container>
   )

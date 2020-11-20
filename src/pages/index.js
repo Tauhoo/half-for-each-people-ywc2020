@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
-import { Typography, Button, Drawer } from "antd"
+import { Typography, Drawer } from "antd"
 import { LeftOutlined } from "@ant-design/icons"
 import Layout from "../components/layout"
 import FilterPanel from "../components/filterPanel"
-import MerchantCard from "../components/merchantCard"
 import getData from "../utilis/getData"
 import queryData from "../utilis/queryData"
+import MerchantList from "../components/merchantList"
 
 const { Paragraph, Title } = Typography
 
@@ -22,15 +22,6 @@ const Content = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
-`
-
-const MerchantList = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.5rem;
-  width: 100%;
-  height: max-content;
-  justify-items: center;
 `
 
 const FilterPanelContainer = styled.div`
@@ -72,6 +63,8 @@ const defaultQueryData = {
   key: "",
 }
 
+const minMerchantNumber = 18
+
 function useFilterPannel() {
   const [data, setData] = useState(defaultData)
   const [query, setQuery] = useState(defaultQueryData)
@@ -89,7 +82,7 @@ function useFilterPannel() {
     const result = await queryData(query, data.merchants, subCategories)
     setMerchantList(result)
     setLoading(false)
-    setPage(Math.min(18, result.length))
+    setPage(Math.min(minMerchantNumber, result.length))
   }
 
   function updateSubCategories(category) {
@@ -138,7 +131,7 @@ function useFilterPannel() {
     setLoading(true)
   }
   function addPage() {
-    setPage(Math.min(merchantNumber + 18, merchantsList.length))
+    setPage(Math.min(merchantNumber + minMerchantNumber, merchantsList.length))
   }
 
   return [
@@ -276,30 +269,12 @@ export default () => {
             <FilterPanelContainer>
               <FilterPanel {...filterPanelProps}></FilterPanel>
             </FilterPanelContainer>
-            <MerchantList>
-              {merchants
-                .map(data => (
-                  <MerchantCard
-                    data={data}
-                    key={data.shopNameTH}
-                  ></MerchantCard>
-                ))
-                .slice(0, merchantNumber)}
-              {merchantNumber >= merchants.length ? null : (
-                <Button
-                  size="large"
-                  style={{
-                    marginTop: "40px",
-                    height: "50px",
-                    maxWidth: "24rem",
-                    width: "100%",
-                  }}
-                  onClick={() => addPage()}
-                >
-                  ดูเพิ่มเติม
-                </Button>
-              )}
-            </MerchantList>
+            <MerchantList
+              onAddPage={() => addPage()}
+              merchants={merchants}
+              merchantNumber={merchantNumber}
+              loading={loading}
+            />
           </Content>
         </Container>
       </Layout>
