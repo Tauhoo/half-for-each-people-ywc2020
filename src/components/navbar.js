@@ -13,6 +13,7 @@ const Container = styled.div`
   justify-items: center;
   width: 100%;
   height: 60px;
+  background-color: white;
 `
 
 const Wrapper = styled.div`

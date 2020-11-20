@@ -3,7 +3,6 @@ import styled from "styled-components"
 import Layout from "../components/layout"
 import { Typography } from "antd"
 import FilterPanel from "../components/filterPanel"
-import { Card } from "antd"
 
 const { Paragraph } = Typography
 
@@ -35,6 +34,7 @@ export default () => {
               borderWidth: "1px",
               borderColor: "#A0AFBF",
               boxSizing: "border-box",
+              backgroundColor: "white",
             }}
           >
             <FilterPanel></FilterPanel>

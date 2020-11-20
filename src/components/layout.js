@@ -1,4 +1,6 @@
 import React from "react"
+import { useStaticQuery, graphql } from "gatsby"
+import styled from "styled-components"
 import { createGlobalStyle } from "styled-components"
 import HistoryMenu from "./historyMenu"
 import Navbar from "./navbar"
@@ -39,11 +41,34 @@ const GlobalStyle = createGlobalStyle`
 
 `
 
-export default ({ children }) => (
-  <>
-    <GlobalStyle />
-    <Navbar />
-    <HistoryMenu />
-    <Wrapper>{children}</Wrapper>
-  </>
-)
+const Container = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-image: url(${({ url }) => url});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+`
+
+export default ({ children }) => {
+  const data = useStaticQuery(graphql`
+    query {
+      file(relativePath: { eq: "background.png" }) {
+        childImageSharp {
+          fixed(width: 650, height: 732) {
+            ...GatsbyImageSharpFixed
+          }
+        }
+      }
+    }
+  `)
+  return (
+    <Container url={data.file.childImageSharp.fixed.src}>
+      <GlobalStyle />
+      <Navbar />
+      <HistoryMenu />
+      <Wrapper>{children}</Wrapper>
+    </Container>
+  )
+}
