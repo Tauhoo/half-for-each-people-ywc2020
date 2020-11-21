@@ -258,13 +258,12 @@ export default () => {
             style={{
               fontSize: "1.25rem",
               marginTop: "20px",
+              marginBottom: "48px",
               fontWeight: "600",
             }}
           >
             {renderTitle(query, data)}
           </Paragraph>
-          <br />
-          <br />
           <Content>
             <FilterPanelContainer>
               <FilterPanel {...filterPanelProps}></FilterPanel>
