@@ -24,6 +24,8 @@ const Wrapper = styled.div`
   height: 100%;
   display: grid;
   grid-template-columns: max-content 1fr;
+  justify-items: center;
+  align-items: center;
   padding: 10px 0px;
   padding-right: 2rem;
   > div :last-child {
@@ -56,7 +58,10 @@ const InputGroup = styled.div`
 `
 
 const LogoContainer = styled.div`
-  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
   padding: 0px 2rem;
   > div:last-child {
     display: none !important;
@@ -136,7 +141,7 @@ export default ({ onClickFilter, locationSelectorProps, onUpdateKey }) => {
           <Logo></Logo>
           <MiniLogo></MiniLogo>
         </LogoContainer>
-        <Form onFinish={() => onUpdate(key)}>
+        <Form onFinish={() => onUpdate(key)} style={{ height: "40px" }}>
           <Form.Item>
             <InputGroup>
               <LocationSelector
