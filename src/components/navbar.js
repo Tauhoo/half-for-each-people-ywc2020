@@ -48,7 +48,7 @@ const InputGroup = styled.div`
   grid-template-columns: 192px 1fr 62px;
   overflow: hidden;
   box-shadow: 0px 0px 0.5px 0.5px rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
+  border-radius: 8px;
   @media (max-width: 768px) {
     grid-template-columns: 1fr 62px;
     > * :first-child {
@@ -141,7 +141,10 @@ export default ({ onClickFilter, locationSelectorProps, onUpdateKey }) => {
           <Logo></Logo>
           <MiniLogo></MiniLogo>
         </LogoContainer>
-        <Form onFinish={() => onUpdate(key)} style={{ height: "40px" }}>
+        <Form
+          onFinish={() => onUpdate(key)}
+          style={{ height: "40px", width: "100%" }}
+        >
           <Form.Item>
             <InputGroup>
               <LocationSelector

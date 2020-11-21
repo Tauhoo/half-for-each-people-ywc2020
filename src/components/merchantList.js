@@ -32,6 +32,7 @@ const NotFoundContainer = styled.div`
 
   div {
     font-size: 1rem;
+    text-align: center;
   }
 
   @media (max-width: 768px) {
