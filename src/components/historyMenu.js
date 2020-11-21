@@ -38,7 +38,9 @@ export default () => (
           <Item>
             <span style={{ textDecoration: "underline" }}>หน้าแรก</span>
           </Item>
-          <Item>ค้นหา</Item>
+          <Item>
+            <span style={{ fontWeight: "600" }}>ค้นหา</span>
+          </Item>
         </Breadcrumb>
       </Content>
     </Wrapper>
